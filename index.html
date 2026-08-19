@@ -1,0 +1,1648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+
+<meta
+    name="viewport"
+    content="width=device-width, initial-scale=1"
+>
+
+<title>Channel 4 1982 Menu - Mobile Editor</title>
+
+<style>
+
+/* =========================
+   CHANNEL 4 1982 FONT
+========================= */
+
+@font-face {
+
+    font-family: "Channel4_1982_Main";
+
+    src:
+        url("./Channel4_1982_Main.TTF")
+        format("truetype");
+
+    font-weight: normal;
+    font-style: normal;
+
+}
+
+
+/* =========================
+   GENERAL
+========================= */
+
+html,
+body {
+
+    margin: 0;
+    padding: 0;
+
+    background: #000;
+    color: white;
+
+    font-family: Arial, sans-serif;
+
+    width: 100%;
+    min-height: 100vh;
+
+}
+
+
+body {
+
+    display: flex;
+
+    align-items: center;
+    justify-content: center;
+
+    overflow: hidden;
+
+}
+
+
+/* =========================
+   EDITOR
+========================= */
+
+.editor {
+
+    position: fixed;
+
+    top: 20px;
+    left: 20px;
+
+    width: 300px;
+
+    background:
+        rgba(0, 0, 0, 0.88);
+
+    padding: 18px;
+
+    border-radius: 8px;
+
+    border: 1px solid #444;
+
+    color: white;
+
+    z-index: 100;
+
+    max-height:
+        calc(100vh - 40px);
+
+    overflow-y: auto;
+
+}
+
+
+.editor h2 {
+
+    margin:
+        0 0 15px 0;
+
+    font-size: 18px;
+
+}
+
+
+/* =========================
+   LABELS
+========================= */
+
+.editor label {
+
+    display: block;
+
+    color: #aaa;
+
+    font-size: 10px;
+
+    text-transform: uppercase;
+
+    letter-spacing: 1px;
+
+    margin-bottom: 5px;
+
+}
+
+
+/* =========================
+   INPUTS
+========================= */
+
+.editor input[type="text"] {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    background: #111;
+
+    color: white;
+
+    border: 1px solid #555;
+
+    padding: 8px;
+
+    margin-bottom: 12px;
+
+    font-family: Arial, sans-serif;
+
+    font-size: 14px;
+
+}
+
+
+.editor input[type="file"] {
+
+    width: 100%;
+
+    box-sizing: border-box;
+
+    margin-bottom: 15px;
+
+    color: white;
+
+}
+
+
+/* =========================
+   POSITION BOX
+========================= */
+
+.positionBox {
+
+    background: #242424;
+
+    border: 1px solid #3d3d3d;
+
+    border-radius: 7px;
+
+    padding: 12px;
+
+    margin-bottom: 15px;
+
+}
+
+
+.positionBox label {
+
+    margin-top: 0;
+
+}
+
+
+.positionBox input[type="range"] {
+
+    width: 100%;
+
+}
+
+
+/* =========================
+   PROGRAMMES
+========================= */
+
+.programmes {
+
+    margin-top: 10px;
+
+}
+
+
+.programmes h3 {
+
+    margin:
+        0 0 12px 0;
+
+    font-size: 15px;
+
+}
+
+
+.programme {
+
+    background: #242424;
+
+    border: 1px solid #3d3d3d;
+
+    border-radius: 7px;
+
+    padding: 12px;
+
+    margin-bottom: 10px;
+
+}
+
+
+.programme.dragging {
+
+    opacity: 0.4;
+
+}
+
+
+/* =========================
+   PROGRAMME HEADER
+========================= */
+
+.programme-header {
+
+    display: flex;
+
+    align-items: center;
+
+    justify-content: space-between;
+
+    margin-bottom: 10px;
+
+}
+
+
+.programme-header h4 {
+
+    margin: 0;
+
+    font-size: 13px;
+
+    color: #ddd;
+
+}
+
+
+/* =========================
+   REMOVE
+========================= */
+
+.remove {
+
+    width: 38px;
+
+    height: 30px;
+
+    background: #700;
+
+    border: none;
+
+    color: white;
+
+    cursor: pointer;
+
+    border-radius: 4px;
+
+}
+
+
+.remove:hover {
+
+    background: #900;
+
+}
+
+
+/* =========================
+   HIGHLIGHT
+========================= */
+
+.highlight-row {
+
+    display: flex;
+
+    align-items: center;
+
+    gap: 7px;
+
+    margin-top: 5px;
+
+}
+
+
+.highlight-row input[type="checkbox"] {
+
+    width: 16px;
+
+    height: 16px;
+
+    margin: 0;
+
+}
+
+
+.highlight-row label {
+
+    display: inline;
+
+    margin: 0;
+
+    color: white;
+
+    font-size: 11px;
+
+    text-transform: none;
+
+    letter-spacing: 0;
+
+}
+
+
+/* =========================
+   BUTTONS
+========================= */
+
+.mainButton {
+
+    width: 100%;
+
+    padding: 11px;
+
+    background: #333;
+
+    border: 1px solid #555;
+
+    color: white;
+
+    border-radius: 5px;
+
+    cursor: pointer;
+
+    font-size: 14px;
+
+    margin-top: 8px;
+
+}
+
+
+.mainButton:hover {
+
+    background: #444;
+
+}
+
+
+/* =========================
+   PREVIEW
+========================= */
+
+.frame {
+
+    width:
+        min(
+            100vw,
+            calc(100vh * 1400 / 1080)
+        );
+
+    height:
+        min(
+            100vh,
+            calc(100vw * 1080 / 1400)
+        );
+
+    aspect-ratio: 1400 / 1080;
+
+    position: relative;
+
+}
+
+
+canvas {
+
+    width: 100%;
+
+    height: 100%;
+
+    background: #000;
+
+    display: block;
+
+}
+
+
+/* =========================
+   MOBILE LAYOUT
+========================= */
+
+@media (max-width: 700px) {
+
+    html,
+    body {
+
+        display: block;
+
+        width: 100%;
+
+        height: auto;
+
+        min-height: 100%;
+
+        overflow-x: hidden;
+
+        overflow-y: auto;
+
+    }
+
+
+    .frame {
+
+        width: 100vw;
+
+        height: auto;
+
+        aspect-ratio: 1400 / 1080;
+
+        margin: 0;
+
+    }
+
+
+    canvas {
+
+        width: 100vw;
+
+        height: auto;
+
+        display: block;
+
+    }
+
+
+    .editor {
+
+        position: relative;
+
+        top: auto;
+
+        left: auto;
+
+        width:
+            calc(100% - 30px);
+
+        max-height: none;
+
+        margin:
+            15px auto 30px auto;
+
+        box-sizing: border-box;
+
+        z-index: 10;
+
+        border-radius: 8px;
+
+    }
+
+}
+
+
+/* =========================
+   SMALL PHONE
+========================= */
+
+@media (max-width: 400px) {
+
+    .editor {
+
+        width:
+            calc(100% - 20px);
+
+        padding: 14px;
+
+        margin-top: 12px;
+
+    }
+
+
+    .editor h2 {
+
+        font-size: 17px;
+
+    }
+
+}
+
+</style>
+
+</head>
+
+
+<body>
+
+
+<!-- =========================
+     EDITOR
+========================= -->
+
+<div class="editor">
+
+
+    <h2>
+        Channel 4 1982 Menu
+    </h2>
+
+
+    <!-- TITLE -->
+
+    <label for="titleInput">
+        Title
+    </label>
+
+
+    <input
+        type="text"
+        id="titleInput"
+        value="TONIGHT"
+    >
+
+
+    <!-- MEDIA -->
+
+    <label for="mediaUpload">
+        Image / Video
+    </label>
+
+
+    <input
+        type="file"
+        id="mediaUpload"
+        accept="
+            image/png,
+            image/jpeg,
+            image/webp,
+            video/mp4,
+            video/webm,
+            video/ogg
+        "
+    >
+
+
+    <!-- POSITION -->
+
+    <div class="positionBox">
+
+        <label for="menuY">
+            Programme List Vertical Position
+        </label>
+
+
+        <input
+            type="range"
+            id="menuY"
+            min="450"
+            max="850"
+            value="580"
+        >
+
+    </div>
+
+
+    <!-- PROGRAMMES -->
+
+    <div class="programmes">
+
+        <h3>
+            Programmes
+        </h3>
+
+
+        <div id="programmeList"></div>
+
+
+        <button
+            class="mainButton"
+            id="addButton">
+
+            Add Programme
+
+        </button>
+
+
+        <button
+            class="mainButton"
+            id="resetButton">
+
+            Reset
+
+        </button>
+
+    </div>
+
+</div>
+
+
+<!-- =========================
+     PREVIEW
+========================= -->
+
+<div class="frame">
+
+    <canvas
+        id="canvas"
+        width="1400"
+        height="1080">
+    </canvas>
+
+</div>
+
+
+<script>
+
+/* =========================
+   CANVAS
+========================= */
+
+const canvas =
+    document.getElementById(
+        "canvas"
+    );
+
+
+const ctx =
+    canvas.getContext("2d");
+
+
+const W = 1400;
+
+const H = 1080;
+
+
+/* =========================
+   OVERLAY
+========================= */
+
+const overlay =
+    new Image();
+
+
+overlay.src =
+    "./Overlay.png";
+
+
+/* =========================
+   FONT
+========================= */
+
+const channel4Font =
+    new FontFace(
+        "Channel4_1982_Main",
+        'url("./Channel4_1982_Main.TTF")'
+    );
+
+
+document.fonts.add(
+    channel4Font
+);
+
+
+async function loadChannel4Font() {
+
+    try {
+
+        await channel4Font.load();
+
+        console.log(
+            "Channel 4 1982 font loaded."
+        );
+
+        draw();
+
+    }
+
+    catch (error) {
+
+        console.error(
+            "Channel 4 1982 font failed:",
+            error
+        );
+
+        draw();
+
+    }
+
+}
+
+
+/* =========================
+   MEDIA
+========================= */
+
+let mediaImage = null;
+
+let mediaVideo = null;
+
+let objectURL = null;
+
+
+/* =========================
+   PROGRAMMES
+========================= */
+
+let programmes = [
+
+    {
+        time: "7.00",
+        show: "CHANNEL FOUR NEWS",
+        highlight: false
+    },
+
+    {
+        time: "8.00",
+        show: "BROOKSIDE",
+        highlight: false
+    },
+
+    {
+        time: "8.30",
+        show: "THE PAUL HOGAN SHOW",
+        highlight: false
+    },
+
+    {
+        time: "9.00",
+        show: "FILM ON FOUR - WALTER",
+        highlight: false
+    },
+
+    {
+        time: "10.15",
+        show: "THE COMIC STRIP PRESENTS...",
+        highlight: false
+    },
+
+    {
+        time: "10.45",
+        show: "IN THE PINK",
+        highlight: false
+    }
+
+];
+
+
+/* =========================
+   PROGRAMME LIST
+========================= */
+
+const programmeList =
+    document.getElementById(
+        "programmeList"
+    );
+
+
+function renderProgrammes() {
+
+    programmeList.innerHTML = "";
+
+
+    programmes.forEach(
+        (item, index) => {
+
+            const container =
+                document.createElement(
+                    "div"
+                );
+
+
+            container.className =
+                "programme";
+
+
+            container.draggable =
+                true;
+
+
+            container.addEventListener(
+                "dragstart",
+                () => {
+
+                    container.classList.add(
+                        "dragging"
+                    );
+
+                }
+            );
+
+
+            container.addEventListener(
+                "dragend",
+                () => {
+
+                    container.classList.remove(
+                        "dragging"
+                    );
+
+                }
+            );
+
+
+            container.addEventListener(
+                "dragover",
+                event => {
+
+                    event.preventDefault();
+
+
+                    const dragging =
+                        document.querySelector(
+                            ".dragging"
+                        );
+
+
+                    if (
+                        !dragging ||
+                        dragging === container
+                    ) {
+
+                        return;
+
+                    }
+
+
+                    const list =
+                        [
+                            ...programmeList.children
+                        ];
+
+
+                    const oldIndex =
+                        list.indexOf(
+                            dragging
+                        );
+
+
+                    const newIndex =
+                        list.indexOf(
+                            container
+                        );
+
+
+                    const moved =
+                        programmes.splice(
+                            oldIndex,
+                            1
+                        )[0];
+
+
+                    programmes.splice(
+                        newIndex,
+                        0,
+                        moved
+                    );
+
+
+                    renderProgrammes();
+
+                    draw();
+
+                }
+            );
+
+
+            /* HEADER */
+
+            const header =
+                document.createElement(
+                    "div"
+                );
+
+
+            header.className =
+                "programme-header";
+
+
+            const number =
+                document.createElement(
+                    "h4"
+                );
+
+
+            number.innerText =
+                "Programme " +
+                (index + 1);
+
+
+            const remove =
+                document.createElement(
+                    "button"
+                );
+
+
+            remove.className =
+                "remove";
+
+
+            remove.innerText =
+                "X";
+
+
+            remove.addEventListener(
+                "click",
+                () => {
+
+                    programmes.splice(
+                        index,
+                        1
+                    );
+
+
+                    renderProgrammes();
+
+                    draw();
+
+                }
+            );
+
+
+            header.appendChild(
+                number
+            );
+
+
+            header.appendChild(
+                remove
+            );
+
+
+            /* TIME */
+
+            const timeLabel =
+                document.createElement(
+                    "label"
+                );
+
+
+            timeLabel.innerText =
+                "Time";
+
+
+            const timeInput =
+                document.createElement(
+                    "input"
+                );
+
+
+            timeInput.type =
+                "text";
+
+
+            timeInput.value =
+                item.time;
+
+
+            timeInput.placeholder =
+                "Time";
+
+
+            timeInput.addEventListener(
+                "input",
+                event => {
+
+                    item.time =
+                        event.target.value;
+
+                    draw();
+
+                }
+            );
+
+
+            /* PROGRAMME */
+
+            const showLabel =
+                document.createElement(
+                    "label"
+                );
+
+
+            showLabel.innerText =
+                "Programme";
+
+
+            const showInput =
+                document.createElement(
+                    "input"
+                );
+
+
+            showInput.type =
+                "text";
+
+
+            showInput.value =
+                item.show;
+
+
+            showInput.placeholder =
+                "Programme";
+
+
+            showInput.addEventListener(
+                "input",
+                event => {
+
+                    item.show =
+                        event.target.value;
+
+                    draw();
+
+                }
+            );
+
+
+            /* HIGHLIGHT */
+
+            const highlightRow =
+                document.createElement(
+                    "div"
+                );
+
+
+            highlightRow.className =
+                "highlight-row";
+
+
+            const highlight =
+                document.createElement(
+                    "input"
+                );
+
+
+            highlight.type =
+                "checkbox";
+
+
+            highlight.checked =
+                item.highlight;
+
+
+            highlight.addEventListener(
+                "change",
+                event => {
+
+                    item.highlight =
+                        event.target.checked;
+
+                    draw();
+
+                }
+            );
+
+
+            const highlightLabel =
+                document.createElement(
+                    "label"
+                );
+
+
+            highlightLabel.innerText =
+                "Highlight";
+
+
+            highlightRow.appendChild(
+                highlight
+            );
+
+
+            highlightRow.appendChild(
+                highlightLabel
+            );
+
+
+            container.appendChild(
+                header
+            );
+
+
+            container.appendChild(
+                timeLabel
+            );
+
+
+            container.appendChild(
+                timeInput
+            );
+
+
+            container.appendChild(
+                showLabel
+            );
+
+
+            container.appendChild(
+                showInput
+            );
+
+
+            container.appendChild(
+                highlightRow
+            );
+
+
+            programmeList.appendChild(
+                container
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   ADD PROGRAMME
+========================= */
+
+document
+    .getElementById(
+        "addButton"
+    )
+    .addEventListener(
+        "click",
+        () => {
+
+            programmes.push({
+
+                time: "",
+
+                show: "",
+
+                highlight: false
+
+            });
+
+
+            renderProgrammes();
+
+            draw();
+
+        }
+    );
+
+
+/* =========================
+   MEDIA UPLOAD
+========================= */
+
+document
+    .getElementById(
+        "mediaUpload"
+    )
+    .addEventListener(
+        "change",
+        event => {
+
+            const file =
+                event.target.files[0];
+
+
+            if (!file) {
+
+                return;
+
+            }
+
+
+            if (objectURL) {
+
+                URL.revokeObjectURL(
+                    objectURL
+                );
+
+            }
+
+
+            mediaImage = null;
+
+            mediaVideo = null;
+
+
+            objectURL =
+                URL.createObjectURL(
+                    file
+                );
+
+
+            if (
+                file.type.startsWith(
+                    "video/"
+                )
+            ) {
+
+                const video =
+                    document.createElement(
+                        "video"
+                    );
+
+
+                video.src =
+                    objectURL;
+
+
+                video.muted =
+                    true;
+
+
+                video.loop =
+                    true;
+
+
+                video.autoplay =
+                    true;
+
+
+                video.playsInline =
+                    true;
+
+
+                video.addEventListener(
+                    "loadeddata",
+                    () => {
+
+                        mediaVideo =
+                            video;
+
+
+                        video
+                            .play()
+                            .catch(
+                                () => {}
+                            );
+
+
+                        draw();
+
+                    }
+                );
+
+
+                video.addEventListener(
+                    "play",
+                    renderVideo
+                );
+
+            }
+
+            else {
+
+                const image =
+                    new Image();
+
+
+                image.onload =
+                    () => {
+
+                        mediaImage =
+                            image;
+
+
+                        draw();
+
+                    };
+
+
+                image.src =
+                    objectURL;
+
+            }
+
+        }
+    );
+
+
+/* =========================
+   VIDEO LOOP
+========================= */
+
+function renderVideo() {
+
+    if (mediaVideo) {
+
+        draw();
+
+        requestAnimationFrame(
+            renderVideo
+        );
+
+    }
+
+}
+
+
+/* =========================
+   DRAW MEDIA
+========================= */
+
+function drawMedia() {
+
+    const x = 100;
+
+    const y = 100;
+
+    const width = 610;
+
+    const height = 465;
+
+
+    if (
+        mediaVideo &&
+        mediaVideo.readyState >= 2
+    ) {
+
+        ctx.drawImage(
+            mediaVideo,
+            x,
+            y,
+            width,
+            height
+        );
+
+    }
+
+    else if (
+        mediaImage &&
+        mediaImage.complete &&
+        mediaImage.naturalWidth > 0
+    ) {
+
+        ctx.drawImage(
+            mediaImage,
+            x,
+            y,
+            width,
+            height
+        );
+
+    }
+
+}
+
+
+/* =========================
+   DRAW
+========================= */
+
+function draw() {
+
+    ctx.clearRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    /* BLACK BACKGROUND */
+
+    ctx.fillStyle =
+        "#000";
+
+
+    ctx.fillRect(
+        0,
+        0,
+        W,
+        H
+    );
+
+
+    /* MEDIA */
+
+    drawMedia();
+
+
+    /* OVERLAY */
+
+    if (
+        overlay.complete &&
+        overlay.naturalWidth > 0
+    ) {
+
+        ctx.drawImage(
+            overlay,
+            0,
+            0,
+            W,
+            H
+        );
+
+    }
+
+
+    /* =====================
+       TITLE
+    ===================== */
+
+    const title =
+        document.getElementById(
+            "titleInput"
+        ).value;
+
+
+    ctx.fillStyle =
+        "white";
+
+
+    ctx.font =
+        '82px "Channel4_1982_Main"';
+
+
+    ctx.textAlign =
+        "center";
+
+
+    ctx.textBaseline =
+        "middle";
+
+
+    /*
+       TITLE POSITION
+       MOVED 5PX RIGHT
+    */
+
+    ctx.fillText(
+        title,
+        1029,
+        500
+    );
+
+
+    /* =====================
+       PROGRAMMES + TIMES
+    ===================== */
+
+    const startY =
+        Number(
+            document.getElementById(
+                "menuY"
+            ).value
+        ) + 60;
+
+
+    const rowSpacing =
+        70;
+
+
+    /* =====================
+       PROGRAMME NAMES
+    ===================== */
+
+    const programmeX =
+        105;
+
+
+    /* =====================
+       TIMES
+       MOVED 20PX LEFT
+    ===================== */
+
+    const timeX =
+        1280;
+
+
+    programmes.forEach(
+        (item, index) => {
+
+
+            const y =
+                startY +
+                (
+                    index *
+                    rowSpacing
+                );
+
+
+            /* =================
+               HIGHLIGHT COLOUR
+            ================= */
+
+            if (
+                item.highlight
+            ) {
+
+                ctx.fillStyle =
+                    "rgb(240, 193, 55)";
+
+            }
+
+            else {
+
+                ctx.fillStyle =
+                    "white";
+
+            }
+
+
+            /* =================
+               PROGRAMME NAME
+            ================= */
+
+            ctx.font =
+                '65px "Channel4_1982_Main"';
+
+
+            ctx.textAlign =
+                "left";
+
+
+            ctx.fillText(
+                item.show,
+                programmeX,
+                y
+            );
+
+
+            /* =================
+               TIME
+            ================= */
+
+            ctx.font =
+                '65px "Channel4_1982_Main"';
+
+
+            ctx.textAlign =
+                "right";
+
+
+            ctx.fillText(
+                item.time,
+                timeX,
+                y
+            );
+
+        }
+    );
+
+}
+
+
+/* =========================
+   TITLE LISTENER
+========================= */
+
+document
+    .getElementById(
+        "titleInput"
+    )
+    .addEventListener(
+        "input",
+        draw
+    );
+
+
+/* =========================
+   POSITION LISTENER
+========================= */
+
+document
+    .getElementById(
+        "menuY"
+    )
+    .addEventListener(
+        "input",
+        draw
+    );
+
+
+/* =========================
+   OVERLAY
+========================= */
+
+overlay.onload =
+    function() {
+
+        draw();
+
+    };
+
+
+/* =========================
+   RESET
+========================= */
+
+document
+    .getElementById(
+        "resetButton"
+    )
+    .addEventListener(
+        "click",
+        function() {
+
+            location.reload();
+
+        }
+    );
+
+
+/* =========================
+   START
+========================= */
+
+renderProgrammes();
+
+loadChannel4Font();
+
+draw();
+
+</script>
+
+</body>
+</html>
